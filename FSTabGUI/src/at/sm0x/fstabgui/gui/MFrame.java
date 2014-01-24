@@ -74,7 +74,6 @@ public class MFrame extends JFrame{
 		mnuHelp.add(mnuItemAbout);
 		
 		
-		
 	}
 
 }
