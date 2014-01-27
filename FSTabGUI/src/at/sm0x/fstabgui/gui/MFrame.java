@@ -2,17 +2,17 @@ package at.sm0x.fstabgui.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import at.sm0x.fstabgui.gui.FsEntryPanel;
+import at.sm0x.fstabgui.core.FstabReader;
 
 public class MFrame extends JFrame{
 	
@@ -20,10 +20,11 @@ public class MFrame extends JFrame{
 	private JMenu mnuFile, mnuSettings, mnuHelp;
 	private JMenuItem mnuItemClose, mnuItemSettings, mnuItemAbout;
 	private JPanel contentPnl;
+	private JProgressBar progBar;
 	
 	public MFrame()
 	{
-		
+		FstabReader fsread = new FstabReader();
 		setLocation(200, 100);
 		setSize(800, 600);
 		setTitle("Filesystem Table GUI");
@@ -57,9 +58,14 @@ public class MFrame extends JFrame{
 		
 		getContentPane().add(menuBar,BorderLayout.PAGE_START);
 		
+		for(int i = 0; i <= fsread.getFSCount(); i++)
+		{
+			contentPnl.add(new FsEntryPanel(fsread.getFSArray(i, 0), fsread.getFSArray(i, 1)));
+			System.out.println("DEBUG: Schleife wurde "+ i + " mal durchgelaufen");
+		}
 		
-		
-		getContentPane().add(contentPnl);
+		getContentPane().add(contentPnl, BorderLayout.CENTER);
+		getContentPane().add(progBar, BorderLayout.PAGE_END);
 		
 		setVisible(true);
 		
@@ -87,16 +93,19 @@ public class MFrame extends JFrame{
 		contentPnl.setLayout(new FlowLayout(FlowLayout.LEADING, 10, 0));
 		contentPnl.setAutoscrolls(true);
 		
+		progBar = new JProgressBar(0, 100);
 		
 		
-		FsEntryPanel newPnl1 = new FsEntryPanel("/dev/sda1", "/");
+		
+/*		FsEntryPanel newPnl1 = new FsEntryPanel("/dev/sda1", "/");
 		FsEntryPanel newPnl2 = new FsEntryPanel("/dev/sda2", "/home");
 		FsEntryPanel newPnl3 = new FsEntryPanel("/dev/sda3", "/media/michael/Daten");
-		
+
+
 		contentPnl.add(newPnl1);
 		contentPnl.add(newPnl2);
-		contentPnl.add(newPnl3);
-		
+		contentPnl.add(newPnl3); 
+		*/
 	}
 
 	private void addWidgets() {
@@ -108,7 +117,6 @@ public class MFrame extends JFrame{
 		mnuFile.add(mnuItemClose);
 		mnuSettings.add(mnuItemSettings);
 		mnuHelp.add(mnuItemAbout);
-		
 		
 	}
 

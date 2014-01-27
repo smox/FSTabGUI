@@ -9,6 +9,19 @@ import java.util.RandomAccess;
 
 public class FstabReader{
 	
+	private int fsCount = 0;
+	
+	String[][] fsArray = new String[100][6];
+	
+	public int getFSCount()
+	{
+		return fsCount;
+	}
+	
+	public String getFSArray(int i1, int i2){
+		return fsArray[i1][i2];
+	}
+	
 	public FstabReader(){
 		
 		String[] fileSystems = new String[100];
@@ -33,6 +46,7 @@ public class FstabReader{
 					{
 						fileSystems[si] = newStr;
 						si++;
+						fsCount++;
 					} else {
 						eof = true;
 					}
@@ -48,7 +62,6 @@ public class FstabReader{
 		}
 		
 	
-		String[][] fsArray = new String[100][6];
 		boolean fsSysEnd = false;
 		int i2 = 0;
 		
@@ -63,8 +76,12 @@ public class FstabReader{
 		i2++;
 		}
 	
+
+		
+		
 		System.out.println(fsArray[0][0]);
 		System.out.println(fsArray[1][0]);
+		System.out.println("DEBUG: Festplattenanzahl: " + getFSCount());
 	
 	
 	}
