@@ -2,6 +2,10 @@ package at.sm0x.fstabgui.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -19,14 +23,15 @@ public class MFrame extends JFrame{
 	private JMenuBar menuBar;
 	private JMenu mnuFile, mnuSettings, mnuHelp;
 	private JMenuItem mnuItemClose, mnuItemSettings, mnuItemAbout;
-	private JPanel contentPnl;
+	private JPanel contentPnl, buttonPnl;
+	private JButton btnGenFSTab, btnNewEntry;
 	private JProgressBar progBar;
 	
 	public MFrame()
 	{
 		FstabReader fsread = new FstabReader();
 		setLocation(200, 100);
-		setSize(800, 600);
+		setSize(900, 600);
 		setTitle("Filesystem Table GUI");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
@@ -60,10 +65,11 @@ public class MFrame extends JFrame{
 		
 		for(int i = 0; i <= fsread.getFSCount(); i++)
 		{
-			contentPnl.add(new FsEntryPanel(fsread.getFSArray(i, 0), fsread.getFSArray(i, 1)));
+			contentPnl.add(new FsEntryPanel(fsread.getFSArray(i, 0), fsread.getFSArray(i, 1),
+					fsread.getFSArray(i, 2)));
 			System.out.println("DEBUG: Schleife wurde "+ i + " mal durchgelaufen");
 		}
-		
+		contentPnl.add(buttonPnl);
 		getContentPane().add(contentPnl, BorderLayout.CENTER);
 		getContentPane().add(progBar, BorderLayout.PAGE_END);
 		
@@ -90,8 +96,18 @@ public class MFrame extends JFrame{
 		System.out.println("DEBUG: MenuItems loaded...");
 		
 		contentPnl = new JPanel();
-		contentPnl.setLayout(new FlowLayout(FlowLayout.LEADING, 10, 0));
+		contentPnl.setLayout(new BoxLayout(contentPnl, BoxLayout.PAGE_AXIS));
 		contentPnl.setAutoscrolls(true);
+		
+		
+		buttonPnl = new JPanel();
+		buttonPnl.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 10));
+		buttonPnl.add(Box.createHorizontalGlue());
+		
+		
+		btnNewEntry = new JButton("New Entry");
+		btnGenFSTab = new JButton("Generate new FS Table..");
+		
 		
 		progBar = new JProgressBar(0, 100);
 		
@@ -117,6 +133,10 @@ public class MFrame extends JFrame{
 		mnuFile.add(mnuItemClose);
 		mnuSettings.add(mnuItemSettings);
 		mnuHelp.add(mnuItemAbout);
+				
+		buttonPnl.add(btnNewEntry);
+		buttonPnl.add(btnGenFSTab);
+		
 		
 	}
 

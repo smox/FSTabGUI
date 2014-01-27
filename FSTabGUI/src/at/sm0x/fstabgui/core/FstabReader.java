@@ -69,7 +69,7 @@ public class FstabReader{
 		{
 			if(fileSystems[i2] != null)
 			{
-				fsArray[i2] = fileSystems[i2].split("\t");
+				fsArray[i2] = fileSystems[i2].split("\t| ");
 			} else {
 				fsSysEnd = true;
 			}
