@@ -1,8 +1,13 @@
 package at.sm0x.fstabgui.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,10 +17,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import at.sm0x.fstabgui.gui.FsEntryPanel;
 import at.sm0x.fstabgui.core.FstabReader;
 
 public class MFrame extends JFrame{
@@ -23,15 +30,24 @@ public class MFrame extends JFrame{
 	private JMenuBar menuBar;
 	private JMenu mnuFile, mnuSettings, mnuHelp;
 	private JMenuItem mnuItemClose, mnuItemSettings, mnuItemAbout;
-	private JPanel contentPnl, buttonPnl;
+	private JPanel contentPnl, buttonPnl, fsPnl;
+	private JScrollPane fsScrollPane;
 	private JButton btnGenFSTab, btnNewEntry;
+	private JScrollBar scrollBar;
+	private JScrollPane scrollPane;
 	private JProgressBar progBar;
+	
+	
+	public void addEmptyFSPanel()
+	{
+		fsScrollPane.add(new FsEntryPanel("", "", ""));
+	}
 	
 	public MFrame()
 	{
 		FstabReader fsread = new FstabReader();
 		setLocation(200, 100);
-		setSize(900, 600);
+//		setSize(900, 600);
 		setTitle("Filesystem Table GUI");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
@@ -65,15 +81,22 @@ public class MFrame extends JFrame{
 		
 		for(int i = 0; i <= fsread.getFSCount(); i++)
 		{
-			contentPnl.add(new FsEntryPanel(fsread.getFSArray(i, 0), fsread.getFSArray(i, 1),
+			fsPnl.add(new FsEntryPanel(fsread.getFSArray(i, 0), fsread.getFSArray(i, 1),
 					fsread.getFSArray(i, 2)));
 			System.out.println("DEBUG: Schleife wurde "+ i + " mal durchgelaufen");
 		}
+		
+		contentPnl.add(scrollPane);
+	//	fsPnl.setPreferredSize(new Dimension(900, 400));
+		contentPnl.add(Box.createVerticalGlue());
 		contentPnl.add(buttonPnl);
+		contentPnl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		getContentPane().add(contentPnl, BorderLayout.CENTER);
 		getContentPane().add(progBar, BorderLayout.PAGE_END);
 		
 		setVisible(true);
+		
+		pack();
 		
 	}
 
@@ -97,16 +120,25 @@ public class MFrame extends JFrame{
 		
 		contentPnl = new JPanel();
 		contentPnl.setLayout(new BoxLayout(contentPnl, BoxLayout.PAGE_AXIS));
-		contentPnl.setAutoscrolls(true);
+		
+		fsPnl = new JPanel();
+		fsPnl.setLayout(new BoxLayout(fsPnl, BoxLayout.PAGE_AXIS));
+		fsPnl.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		
 		
 		
 		buttonPnl = new JPanel();
 		buttonPnl.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 10));
-		buttonPnl.add(Box.createHorizontalGlue());
+		buttonPnl.setBorder(BorderFactory.createLineBorder(Color.RED));
 		
 		
 		btnNewEntry = new JButton("New Entry");
 		btnGenFSTab = new JButton("Generate new FS Table..");
+		
+		scrollPane = new JScrollPane(fsPnl, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollBar = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 100);
+
 		
 		
 		progBar = new JProgressBar(0, 100);
@@ -133,9 +165,21 @@ public class MFrame extends JFrame{
 		mnuFile.add(mnuItemClose);
 		mnuSettings.add(mnuItemSettings);
 		mnuHelp.add(mnuItemAbout);
-				
+		
+		
 		buttonPnl.add(btnNewEntry);
 		buttonPnl.add(btnGenFSTab);
+		buttonPnl.setMaximumSize(new Dimension(buttonPnl.getPreferredSize()));		
+		
+		btnNewEntry.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fsPnl.add(new FsEntryPanel("", "", ""));
+				fsPnl.validate();
+				scrollPane.getViewport().setView(fsPnl);
+			}
+		});
 		
 		
 	}
