@@ -42,37 +42,32 @@ public class GenFSTabListener implements ActionListener{
 		
 	}
 	
-/*	public void copy(File fSrc, File fDes)
+	public void copy(File fSrc, File fDes)
 	{
+		
+		  try {
 	      final FileInputStream fis;
-		try {
-			fis = new FileInputStream(fSrc);
-		} catch (FileNotFoundException e) {
-			System.out.println("DEBUG: InputFile nicht gefunden!");
-			e.printStackTrace();
-		} //Stream fuer Quelldatei
-		
-		
+			fis = new FileInputStream(fSrc);  //Stream fuer Quelldatei
+			
 	      FileOutputStream fos;
-		try {
-			fos = new FileOutputStream(fDes);
-		} catch (FileNotFoundException e) {
-			System.out.println("DEBUG: OutputFile nicht gefunden!");
-			e.printStackTrace();
-		} //Stream fuer Zieldatei
+	      fos = new FileOutputStream(fDes); //Stream fuer Zieldatei
 
 	      byte buf[] = new byte[1024]; // Buffer für gelesene Daten
-	      try {
 			while ( fis.read(buf) != -1 ) { // solange lesen, bis EOF
-			    fos.write(buf); // Inhalt schreiben
-			  }
-		} catch (IOException e) {
-			System.out.println("DEBUG: InputFile nicht gefunden!");
-			e.printStackTrace();
-		}
+		  fos.write(buf); // Inhalt schreiben
+			}
 	      fis.close();
 	      fos.flush();
 	      fos.close();
-	} */
+	      
+		  } catch (FileNotFoundException e) {
+				System.out.println("DEBUG: File nicht gefunden!");
+				e.printStackTrace();
+		  } catch (IOException e)
+		  {
+			System.out.println("DEBUG: IO Exception #2 wurde geworfen");
+			e.printStackTrace();
+		  }
+	} 
 
 }
