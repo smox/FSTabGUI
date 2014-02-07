@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.RandomAccess;
 
 public class FstabReader{
 	
@@ -15,7 +14,7 @@ public class FstabReader{
 	
 	public int getFSCount()
 	{
-		return fsCount;
+		return fsCount - 1;
 	}
 	
 	public String getFSArray(int i1, int i2){
@@ -52,10 +51,15 @@ public class FstabReader{
 					}
 				}				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				System.out.println("DEBUG: IOException #1 wurde ausgelöst");
 				e.printStackTrace();
 			}
-			
+			try {
+				fileRead.close();
+			} catch (IOException e) {
+				System.out.println("DEBUG: fileRead.Close Exception wurde ausgelöst...");
+				e.printStackTrace();
+			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println("DEBUG: FSTab nicht gefunden!");
@@ -75,14 +79,10 @@ public class FstabReader{
 			}
 		i2++;
 		}
-	
 
-		
-		
-		System.out.println(fsArray[0][0]);
-		System.out.println(fsArray[1][0]);
 		System.out.println("DEBUG: Festplattenanzahl: " + getFSCount());
-	
+		
+		
 	
 	}
 	

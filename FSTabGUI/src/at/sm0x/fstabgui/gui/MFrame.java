@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -24,6 +25,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import at.sm0x.fstabgui.core.FstabReader;
+import at.sm0x.fstabgui.core.GenFSTabListener;
 
 public class MFrame extends JFrame{
 	
@@ -32,10 +34,13 @@ public class MFrame extends JFrame{
 	private JMenuItem mnuItemClose, mnuItemSettings, mnuItemAbout;
 	private JPanel contentPnl, buttonPnl, fsPnl;
 	private JScrollPane fsScrollPane;
-	private JButton btnGenFSTab, btnNewEntry;
-	private JScrollBar scrollBar;
+	private JButton btnGenFSTab, btnNewEntry, btnRemEntry;
 	private JScrollPane scrollPane;
 	private JProgressBar progBar;
+	private int elementCount;
+	
+	
+	private ArrayList<FsEntryPanel> fsPnlList = new ArrayList<FsEntryPanel>();
 	
 	
 	public void addEmptyFSPanel()
@@ -79,12 +84,29 @@ public class MFrame extends JFrame{
 		
 		getContentPane().add(menuBar,BorderLayout.PAGE_START);
 		
-		for(int i = 0; i <= fsread.getFSCount(); i++)
+/*		for(int i = 0; i <= fsread.getFSCount(); i++)
 		{
 			fsPnl.add(new FsEntryPanel(fsread.getFSArray(i, 0), fsread.getFSArray(i, 1),
 					fsread.getFSArray(i, 2)));
 			System.out.println("DEBUG: Schleife wurde "+ i + " mal durchgelaufen");
 		}
+		*/
+		
+		for(int i = 0; i <= fsread.getFSCount(); i++)
+		{
+			fsPnlList.add(new FsEntryPanel(fsread.getFSArray(i, 0), fsread.getFSArray(i, 1), 
+					fsread.getFSArray(i, 2)));
+		}
+		
+		for(int i = 0; i <= (fsPnlList.size() - 1); i++)
+		{
+			fsPnl.add(fsPnlList.get(i));
+			elementCount++;
+			
+		}
+		
+	
+		
 		
 		contentPnl.add(scrollPane);
 	//	fsPnl.setPreferredSize(new Dimension(900, 400));
@@ -134,11 +156,10 @@ public class MFrame extends JFrame{
 		
 		btnNewEntry = new JButton("New Entry");
 		btnGenFSTab = new JButton("Generate new FS Table..");
+		btnRemEntry = new JButton("Remove Entry");
 		
 		scrollPane = new JScrollPane(fsPnl, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollBar = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 100);
-
 		
 		
 		progBar = new JProgressBar(0, 100);
@@ -167,6 +188,7 @@ public class MFrame extends JFrame{
 		mnuHelp.add(mnuItemAbout);
 		
 		
+		buttonPnl.add(btnRemEntry);
 		buttonPnl.add(btnNewEntry);
 		buttonPnl.add(btnGenFSTab);
 		buttonPnl.setMaximumSize(new Dimension(buttonPnl.getPreferredSize()));		
@@ -175,12 +197,26 @@ public class MFrame extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fsPnl.add(new FsEntryPanel("", "", ""));
+				fsPnlList.add(new FsEntryPanel("", "", ""));
+				fsPnl.add(fsPnlList.get(fsPnlList.size()-1));
 				fsPnl.validate();
 				scrollPane.getViewport().setView(fsPnl);
 			}
 		});
 		
+		btnRemEntry.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fsPnl.remove(fsPnlList.size()-1);
+				fsPnlList.remove(fsPnlList.size()-1);
+				fsPnl.validate();
+				scrollPane.getViewport().setView(fsPnl);
+				
+			}
+		});
+		
+		btnGenFSTab.addActionListener(new GenFSTabListener(fsPnlList));
 		
 	}
 
