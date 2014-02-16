@@ -1,13 +1,9 @@
 package at.sm0x.fstabgui.gui;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.LayoutManager;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -16,7 +12,6 @@ public class FsEntryPanel extends JPanel{
 	
 	private JLabel lblHdd, lblMountPoint, lblFilesys, lblPriv;
 	private JTextField txtHdd, txtMountPoint, txtFilesys;
-	private JButton btnGenFSTab, btnNextEntry;
 	private JCheckBox chkPrivR, chkPrivW, chkPrivX;
 	
 	

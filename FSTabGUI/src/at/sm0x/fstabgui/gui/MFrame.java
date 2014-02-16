@@ -18,7 +18,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -40,7 +39,7 @@ public class MFrame extends JFrame{
 	private int elementCount;
 	
 	
-	private ArrayList<FsEntryPanel> fsPnlList = new ArrayList<FsEntryPanel>();
+	public ArrayList<FsEntryPanel> fsPnlList = new ArrayList<FsEntryPanel>();
 	
 	
 	public void addEmptyFSPanel()

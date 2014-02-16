@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.Paths;
 
 public class FstabReader{
 	
@@ -28,28 +29,32 @@ public class FstabReader{
 		String welcomeLine;
 	
 		try {
-			RandomAccessFile fileRead = new RandomAccessFile(new File ("/home/michael/Desktop/TestDir/fstab"), "r");
+			RandomAccessFile fileRead = new RandomAccessFile(new File (FSTabPaths.fsTabPath), "r");
 			
 			try {
-				System.out.println(fileRead.readLine());
+		/*		System.out.println(fileRead.readLine());
 				welcomeLine = fileRead.readLine();
 				System.out.println(welcomeLine);
 				System.out.println(fileRead.readLine());
-				System.out.println(fileRead.readLine());
+				System.out.println(fileRead.readLine()); */
 				boolean eof = false;
 				while(eof == false)
-				{
+				{	
 					String newStr = fileRead.readLine();
-										
-					if (newStr != null)
-					{
-						fileSystems[si] = newStr;
-						si++;
-						fsCount++;
-					} else {
-						eof = true;
-					}
-				}				
+						if (newStr != null)
+							if(newStr.charAt(0) == '#')
+							{
+								System.out.println(newStr);
+							}else{
+							fileSystems[si] = newStr;
+							System.out.println(newStr.charAt(0));
+							si++;
+							fsCount++;
+						} else{
+							eof = true;
+						}
+				}	
+				
 			} catch (IOException e) {
 				System.out.println("DEBUG: IOException #1 wurde ausgelöst");
 				e.printStackTrace();
