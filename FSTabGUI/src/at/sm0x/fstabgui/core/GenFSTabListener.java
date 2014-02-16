@@ -106,6 +106,9 @@ public class GenFSTabListener implements ActionListener{
 			
 			switch(mountPoint)
 			{
+				case "":
+					options = "# Emptyy????";
+					break;
 				case "none":
 					options = "defaults\t0\t0";
 					break;
