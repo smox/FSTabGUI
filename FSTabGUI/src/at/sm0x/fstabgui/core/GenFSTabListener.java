@@ -112,6 +112,9 @@ public class GenFSTabListener implements ActionListener{
 				case "none":
 					options = "defaults\t0\t0";
 					break;
+				case "swap":
+					options = "defaults\t0\t0";
+					break;
 				case "/":
 					options = "rw,relatime,data=ordered\t0\t1";
 					break;

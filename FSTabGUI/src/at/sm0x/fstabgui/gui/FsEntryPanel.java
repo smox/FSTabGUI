@@ -7,6 +7,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 public class FsEntryPanel extends JPanel{
 	
@@ -26,9 +28,14 @@ public class FsEntryPanel extends JPanel{
 		
 		System.out.println("DEBUG: Step 2");
 		
+		
+		
 		addWidgets();
 		
 		System.out.println("DEBUG: Step 3");
+		
+		
+		
 		setVisible(true);
 		
 		
@@ -47,11 +54,24 @@ public class FsEntryPanel extends JPanel{
 		lblPriv = new JLabel("Rechte: ");
 		
 		txtHdd = new JTextField(newHdName);
-		txtHdd.setPreferredSize(new Dimension(150, 25));
+		txtHdd.setPreferredSize(new Dimension(200,txtHdd.getMinimumSize().height));
 		txtMountPoint = new JTextField(newMountPoint);
-		txtMountPoint.setPreferredSize(new Dimension(150, 25));
+		txtMountPoint.setPreferredSize(new Dimension(200,txtMountPoint.getMinimumSize().height));
 		txtFilesys = new JTextField(fsys);
-		txtFilesys.setPreferredSize(new Dimension(50, 25));
+		txtFilesys.setPreferredSize(new Dimension(50,txtFilesys.getMinimumSize().height));
+		txtFilesys.addCaretListener(new CaretListener() {
+			
+			@Override
+			public void caretUpdate(CaretEvent arg0) {
+				if (txtFilesys.getText().equals("swap")){
+					txtMountPoint.setText("none");
+					txtMountPoint.setEditable(false);
+				} else {
+					txtMountPoint.setEditable(true);
+				}
+				
+			}
+		});
 		chkPrivR = new JCheckBox("Read");
 		chkPrivW = new JCheckBox("Write");
 		chkPrivX = new JCheckBox("Execute");

@@ -30,6 +30,7 @@ public class FstabReader{
 	
 		try {
 			RandomAccessFile fileRead = new RandomAccessFile(new File (FSTabPaths.fsTabPath), "r");
+	
 			
 			try {
 		/*		System.out.println(fileRead.readLine());
@@ -41,7 +42,42 @@ public class FstabReader{
 				while(eof == false)
 				{	
 					String newStr = fileRead.readLine();
-						if (newStr != null)
+						if(newStr != null)
+						{
+							
+							
+													
+							System.out.println(newStr);
+							//TODO Readline
+							try{
+								if(newStr.charAt(0) == '#'){
+									//TODO Handle Comments
+									System.out.println(newStr);
+									continue;
+								}
+								else {
+									fileSystems[si] = newStr;
+									si++;
+									fsCount++;
+								} 
+							} catch (StringIndexOutOfBoundsException se)
+							{
+								// if the fstab beginning with a emptyLine, skip it and continue the while-loop
+								continue;
+							}
+							
+							
+							
+						} else {
+							// TODO EOF!
+							eof = true;
+						} 
+					
+					
+					
+				/*	String newStr = fileRead.readLine();
+						if (newStr != null){
+							System.out.println("DEBUG: CharAT: "+ newStr.charAt(0));
 							if(newStr.charAt(0) == '#')
 							{
 								System.out.println(newStr);
@@ -50,9 +86,9 @@ public class FstabReader{
 							System.out.println(newStr.charAt(0));
 							si++;
 							fsCount++;
-						} else{
+							}} else{
 							eof = true;
-						}
+						} */
 				}	
 				
 			} catch (IOException e) {
@@ -68,6 +104,7 @@ public class FstabReader{
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println("DEBUG: FSTab nicht gefunden!");
+			System.out.println("DEBUG: FSTAB Path: " + FSTabPaths.fsTabPath);
 		}
 		
 	
@@ -78,7 +115,7 @@ public class FstabReader{
 		{
 			if(fileSystems[i2] != null)
 			{
-				fsArray[i2] = fileSystems[i2].split("\t| ");
+				fsArray[i2] = fileSystems[i2].split("\t| +");
 			} else {
 				fsSysEnd = true;
 			}
