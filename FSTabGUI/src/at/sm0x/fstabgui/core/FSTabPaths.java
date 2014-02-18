@@ -8,7 +8,7 @@ import java.io.RandomAccessFile;
 
 public class FSTabPaths{
 	
-	public static String fsTabPath = System.getProperty("user.home")+ "/Schreibtisch/TestDir/fstab";
+	public static String fsTabPath = System.getProperty("user.home")+ "/Desktop/TestDir/fstab";
 	public static File fileOrig;
 	public static File fileBackUp;
 	private RandomAccessFile fileWriter;
@@ -32,4 +32,8 @@ public class FSTabPaths{
 		
 	}
 
+	
+	public static void setFSTabPath(String newPath){
+		fsTabPath = newPath;
+	}
 }

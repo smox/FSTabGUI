@@ -1,10 +1,9 @@
 package at.sm0x.fstabgui.core;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import at.sm0x.fstabgui.gui.MFrame;
 
@@ -27,6 +26,21 @@ public class FsTabGui {
 		
 		loadProgram.pack();
 		*/
+
+		if(new File(FSTabPaths.fsTabPath).exists() == false)
+		{
+			
+			System.out.println("FSTab not Found, pls Typ in the Location");
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			try {
+				String input = in.readLine();
+				FSTabPaths.setFSTabPath(input);
+			} catch (IOException e1) {
+				// TODO Automatisch generierter Erfassungsblock
+				e1.printStackTrace();
+			}
+			
+		}
 		MFrame mf = new MFrame();
 	}
 
