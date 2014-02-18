@@ -53,7 +53,7 @@ public class MFrame extends JFrame{
 		FstabReader fsread = new FstabReader();
 		setLocation(200, 100);
 //		setSize(900, 600);
-		setTitle("Filesystem Table GUI - Alpha Build 11");
+		setTitle("Filesystem Table GUI - Alpha Build 12");
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
